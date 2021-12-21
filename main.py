@@ -93,14 +93,14 @@ class main_container(App):
                                    ('[ ]', fst.options[0]),
                                    ('[ ]', fst.options[1]),
                                    ('[ ]', fst.options[2]),
-                                   ('[ ]', fst.options[3]),], width=300, height=200, margin='10px',fill_title=False)
+                                   ('[ ]', fst.options[3]),], width=600, height=200, margin='10px',fill_title=False)
         self.tbl.on_table_row_click.do(self.on_table_row_click)
-        mainContainer.append(self.knowledge_point)
-        mainContainer.append(self.ans)
-        mainContainer.append(self.nxt)
-        mainContainer.append(self.btn)
-        mainContainer.append(self.tbl)
         mainContainer.append(self.question)
+        mainContainer.append(self.tbl)
+        mainContainer.append(self.btn)
+        mainContainer.append(self.nxt)
+        mainContainer.append(self.ans)
+        mainContainer.append(self.knowledge_point)
         return mainContainer
     def on_table_row_click(self, widget, row, col):
         if self.question_tp == 0:
@@ -145,4 +145,4 @@ class main_container(App):
                 self.tbl.set_cell_value(i,1,arr[self.question_num].options[i])
         self.question_num=to
         self.ans.set_text('')
-start(main_container())
+start(main_container)
