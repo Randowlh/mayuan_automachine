@@ -51,7 +51,7 @@ class question:
             return False
 def init_tiku():
     arr=[]
-    f = open("tt.txt",encoding = "utf-8")
+    f = open("tiku.txt",encoding = "utf-8")
     tiku = f.read()
     f.close()
     tmp ="";
@@ -97,7 +97,13 @@ def init_tiku():
     return arr
 arr = init_tiku()
 fst=arr[1]
-
+def gettp(a):
+    if arr[a].type==1:
+        return "多选题："
+    elif arr[a].type==0:
+        return "单选题："
+    elif arr[a].type==-1:
+        return "判断题："
 def correct_rt():
     global correct_cnt
     global total_cnt
@@ -119,7 +125,7 @@ class main_container(App):
         self.nxt.onclick.connect(self.to_next)
         self.ans=gui.Label('',width=200,height=50)
         self.knowledge_point=gui.Label(fst.knowledge_point,width=200,height=50)
-        self.question=gui.Label(fst.question,width=500,height=100,style={'margin':'0px auto', 'padding':'0px','font-size':'30px'})
+        self.question=gui.Label(gettp(1)+fst.question,width=700,height=100,style={'margin':'0px auto', 'padding':'0px','font-size':'30px'})
         self.tbl=gui.Table.new_from_list([
                                    (['[ ]'+fst.options[0]]),
                                    (['[ ]'+ fst.options[1]]),
@@ -156,9 +162,9 @@ class main_container(App):
                 tans.append(i)
         print(tans);
         if fst.judege(tans):
-            self.ans.set_text('正确'+str(arr[self.question_num].answers))
+            self.ans.set_text('正确')
         else:
-            self.ans.set_text('错误'+str(arr[self.question_num].answers))
+            self.ans.set_text('错误')
         self.correct_rate.set_text("当前正确率为："+str(correct_rt()))
     def to_next(self, widget):
         to=1
@@ -169,7 +175,7 @@ class main_container(App):
             else: 
                 break
         self.question_num=to
-        self.question.set_text(arr[self.question_num].question)
+        self.question.set_text(gettp(self.question_num)+arr[self.question_num].question)
         self.knowledge_point.set_text(arr[self.question_num].knowledge_point)
         self.question_tp=arr[self.question_num].type
         for i in range(4):
