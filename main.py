@@ -27,7 +27,7 @@ class question:
                 self.answers.append(1)
         print("ans="+str(self.answers));
         self.knowledge_point = knowledge_point
-        self.cnt = 0
+        self.cnt = 0 
         if len(self.answers)!=1:
             self.type=1
         if(self.type==-1):
@@ -39,6 +39,7 @@ class question:
         global correct_cnt
         global total_cnt
         total_cnt+=1
+        self.answers.sort()
         print(self.answers);
         if options == self.answers:
             self.cnt += 1
@@ -66,7 +67,7 @@ def init_tiku():
             if flag==2:
                 knowledge_point=tmp
             else:
-                answers=tmp
+                ans=tmp
             flag=0
             arr.append(question(qes,options,ans,knowledge_point))
             knowledge_point=''
@@ -161,11 +162,12 @@ class main_container(App):
             if self.is_clicked[i]==1:
                 tans.append(i)
         print(tans);
-        if fst.judege(tans):
+        if arr[self.question_num].judege(tans):
             self.ans.set_text('正确')
         else:
             self.ans.set_text('错误')
         self.correct_rate.set_text("当前正确率为："+str(correct_rt()))
+        print(arr[self.question_num].answers);
     def to_next(self, widget):
         to=1
         while True:
