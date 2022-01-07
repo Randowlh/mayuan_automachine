@@ -1,15 +1,15 @@
 import remi.gui as gui
 from remi import start, App
+import time
 import random
 total_cnt=0
 correct_cnt=0
 class question:
-    def __init__(self, question,options, answer,knowledge_point):
+    def __init__(self, question,options, answer,knowledge_point,ccnt=0):
         self.type=0
         self.question = question
         self.options = options
         self.answers =[]
-        print("answer="+answer)
         for i in answer:
             if i=='A':
                 self.answers.append(0)
@@ -25,9 +25,8 @@ class question:
             elif i=='N':
                 self.type=-1
                 self.answers.append(1)
-        print("ans="+str(self.answers));
         self.knowledge_point = knowledge_point
-        self.cnt = 0 
+        self.cnt = ccnt
         if len(self.answers)!=1:
             self.type=1
         if(self.type==-1):
@@ -97,7 +96,27 @@ def init_tiku():
             tmp+=i
     return arr
 arr = init_tiku()
-fst=arr[1]
+random.seed(time.time())
+try:
+    ff=open("state.txt",encoding = "utf-8")
+except  FileNotFoundError:
+    ff=open("state.txt",'w',encoding = "utf-8")
+    for i in range(0,len(arr)):
+        ff.write(str(0)+'\n')
+    ff.close()
+    ff=open("state.txt",encoding = "utf-8")
+cc=0
+for line in ff.readlines():
+    arr[cc].cnt=int(line)
+    cc=cc+1
+too=1
+while True:
+    to=random.randint(0,len(arr)-1)
+    if arr[to].cnt>=4:
+        continue
+    else: 
+        break
+fst=arr[too]
 def gettp(a):
     if arr[a].type==1:
         return "多选题："
@@ -112,7 +131,7 @@ def correct_rt():
         return 0
     return correct_cnt/total_cnt
 class main_container(App):
-    question_num=1
+    question_num=too
     is_clicked=[-1,-1,-1,-1]
     question_tp=0
     def __init__(self, *args):
@@ -188,5 +207,4 @@ class main_container(App):
         self.tbl.empty()
         self.tbl.append_from_list(tmp);
         self.ans.set_text('')
-        print("question_num="+str(self.question_num))
 start(main_container)
